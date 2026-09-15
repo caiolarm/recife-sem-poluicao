@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recife sem Poluição</title>
+
+<style>
+body {
+ margin: 0;
+ font-family: Arial, sans-serif;
+ background: #f3f6f6;
+ color: #17313b;
+}
+
+.app {
+ max-width: 480px;
+ margin: auto;
+ min-height: 100vh;
+ background: white;
+}
+
+header {
+ padding: 18px;
+ border-bottom: 1px solid #dddddd;
+}
+
+.nomeProjeto {
+ font-size: 21px;
+ font-weight: bold;
+}
+
+.subtitulo {
+ font-size: 12px;
+ color: #666666;
+ margin-top: 4px;
+}
+
+main {
+ padding: 18px;
+ padding-bottom: 90px;
+}
+
+.tela { display: none; }
+.tela.ativa { display: block; }
+
+h1 {
+ font-size: 24px;
+}
+
+.caixa {
+ border: 1px solid #d7e0e0;
+ border-radius: 10px;
+ padding: 14px;
+ margin: 12px 0;
+}
+
+.aviso {
+ background: #edf8f6;
+ padding: 10px;
+ border-left: 4px solid #18786f;
+ margin: 12px 0;
+ font-size: 13px;
+}
+
+button {
+ width: 100%;
+ border: 0;
+ border-radius: 10px;
+ padding: 13px;
+ margin-top: 8px;
+ background: #18786f;
+ color: white;
+ font-weight: bold;
+ font-size: 15px;
+ cursor: pointer;
+}
+
+.botaoClaro {
+ background: #edf5f5;
+ color: #155f59;
+ border: 1px solid #cbdada;
+}
+
+label {
+ display: block;
+ font-weight: bold;
+ margin-top: 13px;
+ margin-bottom: 5px;
+ font-size: 13px;
+}
+
+input, select, textarea {
+ width: 100%;
+ padding: 11px;
+ box-sizing: border-box;
+ border: 1px solid #cccccc;
+ border-radius: 8px;
+ font-size: 15px;
+}
+
+textarea {
+ min-height: 90px;
+}
+
+#fotoMostrada {
+ width: 100%;
+ max-height: 230px;
+ object-fit: cover;
+ margin-top: 10px;
+ border-radius: 8px;
+ display: none;
+}
+
+nav {
+ position: fixed;
+ bottom: 0;
+ left: 50%;
+ transform: translateX(-50%);
+ width: 100%;
+ max-width: 480px;
+ display: grid;
+ grid-template-columns: repeat(4,1fr);
+ background: white;
+ border-top: 1px solid #dddddd;
+}
+
+nav button {
+ background: white;
+ color: #666666;
+ border-radius: 0;
+ margin: 0;
+ font-size: 12px;
+}
+
+nav button.ativo {
+ color: #18786f;
+ background: #eef7f6;
+}
+
+.etiqueta {
+ display: inline-block;
+ background: #fff3bd;
+ padding: 4px 7px;
+ border-radius: 12px;
+ font-size: 11px;
+ font-weight: bold;
+}
+
+.info {
+ color: #666666;
+ font-size: 12px;
+ margin-top: 5px;
+}
+
+.sucesso {
+ text-align: center;
+ font-size: 55px;
+ margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+<header>
+ <div class="nomeProjeto">Recife sem Poluição</div>
+<div class="subtitulo">Protótipo feito para atividade extensionista</div>
+</header>
+
+<main>
+<section id="inicio" class="tela ativa">
+ <span class="etiqueta">PROTÓTIPO ACADÊMICO</span>
+ <h1>Ajude a registrar pontos de poluição</h1>
+ <p>Esse projeto foi criado para testar uma forma simples de registrar poluição em rios, canais e áreas da orla do Recife.</p>
+
+ <button onclick="trocarTela('denuncia')">Fazer uma denúncia</button>
+
+ <div class="caixa">
+   <h2>Como usar</h2>
+   <p>1. Escolha o tipo de poluição.<br>
+   2. Informe o local.<br>
+   3. Escreva uma descrição.<br>
+   4. Se quiser coloque uma foto.<br>
+   5. Clique para enviar.</p>
+ </div>
+
+ <div class="aviso">Esse projeto é somente um protótipo acadêmico e não envia a denúncia para nenhum órgão público.</div>
+</section>
+
+<section id="denuncia" class="tela">
+<h1>Nova denúncia</h1>
+
+<label>Tipo de poluição</label>
+<select id="tipo">
+ <option>Lixo ou resíduos sólidos</option>
+ <option>Esgoto ou água contaminada</option>
+ <option>Óleo ou produto químico</option>
+ <option>Animal morto</option>
+ <option>Outro</option>
+</select>
+
+<label>Local</label>
+<input id="local" placeholder="Ex: margem do Rio Capibaribe">
+<button class="botaoClaro" onclick="pegarLocalizacao()">Usar minha localização</button>
+<div id="textoLocalizacao" class="info"></div>
+
+<label>Descrição</label>
+<textarea id="descricao" placeholder="Escreva o que você encontrou"></textarea>
+
+<label>Foto (opcional)</label>
+<input id="foto" type="file" accept="image/*" capture="environment">
+<img id="fotoMostrada" alt="Foto escolhida">
+
+<button onclick="enviarDenuncia()">Enviar denúncia do teste</button>
+<button class="botaoClaro" onclick="trocarTela('inicio')">Cancelar</button>
+</section>
+
+<section id="final" class="tela">
+ <div class="sucesso">✓</div>
+ <h1>Registro feito</h1>
+ <p>A denúncia foi salva somente neste navegador para demonstrar o projeto.</p>
+ <button onclick="trocarTela('registros')">Ver registros</button>
+ <button class="botaoClaro" onclick="trocarTela('denuncia')">Fazer outro teste</button>
+</section>
+
+<section id="registros" class="tela">
+ <h1>Registros</h1>
+ <div class="aviso">Os registros com a palavra EXEMPLO são apenas para mostrar como a tela funciona.</div>
+
+ <div class="caixa">
+   <span class="etiqueta">EXEMPLO</span>
+   <h3>Lixo ou resíduos sólidos</h3>
+   <div class="info">Rio Capibaribe - exemplo do projeto</div>
+ </div>
+
+ <div class="caixa">
+ <span class="etiqueta">EXEMPLO</span>
+ <h3>Esgoto ou água contaminada</h3>
+ <div class="info">Área costeira - exemplo do projeto</div>
+ </div>
+
+<div id="listaDenuncias"></div>
+</section>
+
+<section id="sobre" class="tela">
+ <h1>Sobre</h1>
+ <div class="caixa">
+   <h2>Objetivo</h2>
+   <p>O objetivo é testar uma ideia de aplicativo que ajude pessoas a registrar locais com poluição e organizar essas informações.</p>
+ </div>
+
+<div class="caixa">
+<h2>Como foi feito</h2>
+<p>O protótipo foi feito usando HTML, CSS e JavaScript. Os registros ficam salvos no navegador usando localStorage.</p>
+</div>
+
+ <div class="caixa">
+ <h2>Importante</h2>
+ <p>Esse sistema é só um projeto acadêmico e não substitui canais oficiais de denúncia.</p>
+ </div>
+</section>
+</main>
+
+<nav>
+<button data-tela="inicio" class="ativo" onclick="trocarTela('inicio')">Início</button>
+<button data-tela="denuncia" onclick="trocarTela('denuncia')">Denunciar</button>
+<button data-tela="registros" onclick="trocarTela('registros')">Registros</button>
+<button data-tela="sobre" onclick="trocarTela('sobre')">Sobre</button>
+</nav>
+</div>
+
+<script>
+// variavel usada para guardar a localização quando o usuario permitir
+let localizacao = "";
+
+function trocarTela(nomeTela) {
+ let telas = document.querySelectorAll(".tela");
+
+ telas.forEach(function(tela) {
+  tela.classList.remove("ativa");
+ });
+
+ document.getElementById(nomeTela).classList.add("ativa");
+
+let botoes = document.querySelectorAll("nav button");
+ botoes.forEach(function(botao) {
+    if(botao.dataset.tela == nomeTela) {
+     botao.classList.add("ativo");
+    } else {
+      botao.classList.remove("ativo");
+    }
+ });
+
+ if(nomeTela == "registros") {
+   mostrarRegistros();
+ }
+ window.scrollTo(0,0);
+}
+
+function pegarLocalizacao() {
+ let texto = document.getElementById("textoLocalizacao");
+
+ if(!navigator.geolocation) {
+  texto.innerText = "Esse navegador não tem geolocalização.";
+  return;
+ }
+
+ texto.innerText = "Pegando localização...";
+
+ navigator.geolocation.getCurrentPosition(function(posicao) {
+  let latitude = posicao.coords.latitude.toFixed(5);
+   let longitude = posicao.coords.longitude.toFixed(5);
+
+   localizacao = latitude + ", " + longitude;
+  texto.innerText = "Localização encontrada: " + localizacao;
+ }, function() {
+ texto.innerText = "Não consegui pegar a localização. Pode escrever o local manualmente.";
+ });
+}
+
+let campoFoto = document.getElementById("foto");
+
+campoFoto.addEventListener("change", function() {
+ let foto = campoFoto.files[0];
+ let imagem = document.getElementById("fotoMostrada");
+
+ if(!foto) {
+    imagem.style.display = "none";
+  return;
+ }
+
+ let leitor = new FileReader();
+ leitor.onload = function() {
+ imagem.src = leitor.result;
+   imagem.style.display = "block";
+ };
+ leitor.readAsDataURL(foto);
+});
+
+function enviarDenuncia() {
+ let tipo = document.getElementById("tipo").value;
+ let local = document.getElementById("local").value.trim();
+ let descricao = document.getElementById("descricao").value.trim();
+
+ if(local == "") {
+  alert("Digite o local antes de enviar.");
+   return;
+ }
+
+ let denunciasSalvas = localStorage.getItem("denunciasRecife");
+ let denuncias = [];
+
+ if(denunciasSalvas) {
+   denuncias = JSON.parse(denunciasSalvas);
+ }
+
+ let novaDenuncia = {
+  tipo: tipo,
+   local: local,
+  descricao: descricao,
+  localizacao: localizacao,
+   data: new Date().toLocaleString("pt-BR")
+ };
+
+ denuncias.unshift(novaDenuncia);
+ localStorage.setItem("denunciasRecife", JSON.stringify(denuncias));
+
+ document.getElementById("local").value = "";
+ document.getElementById("descricao").value = "";
+ document.getElementById("foto").value = "";
+ document.getElementById("fotoMostrada").style.display = "none";
+ document.getElementById("textoLocalizacao").innerText = "";
+ localizacao = "";
+
+ trocarTela("final");
+}
+
+function mostrarRegistros() {
+ let lista = document.getElementById("listaDenuncias");
+ let dados = localStorage.getItem("denunciasRecife");
+ let denuncias = [];
+
+ if(dados) {
+  denuncias = JSON.parse(dados);
+ }
+
+ if(denuncias.length == 0) {
+   lista.innerHTML = '<p class="info">Ainda não foi feito nenhum registro de teste neste navegador.</p>';
+ return;
+ }
+
+ lista.innerHTML = "";
+
+ denuncias.forEach(function(denuncia) {
+  let caixa = document.createElement("div");
+    caixa.className = "caixa";
+
+  let html = '<span class="etiqueta">REGISTRO DO TESTE</span>';
+ html += "<h3>" + limparTexto(denuncia.tipo) + "</h3>";
+  html += "<div>" + limparTexto(denuncia.local) + "</div>";
+ html += '<div class="info">' + limparTexto(denuncia.data);
+
+  if(denuncia.localizacao) {
+ html += " - " + limparTexto(denuncia.localizacao);
+  }
+
+ html += "</div>";
+
+ if(denuncia.descricao) {
+   html += "<p>" + limparTexto(denuncia.descricao) + "</p>";
+ }
+
+  caixa.innerHTML = html;
+ lista.appendChild(caixa);
+ });
+}
+
+// isso evita que algum texto digitado vire codigo html na tela
+function limparTexto(texto) {
+ let div = document.createElement("div");
+ div.innerText = texto || "";
+  return div.innerHTML;
+}
+</script>
+</body>
+</html>

@@ -1,427 +1,210 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recife sem Poluição</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recife sem Poluição</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f4f4;
+      color: #222;
+    }
 
-<style>
-body {
- margin: 0;
- font-family: Arial, sans-serif;
- background: #f3f6f6;
- color: #17313b;
-}
+    header {
+      background: #1d6f42;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
 
-.app {
- max-width: 480px;
- margin: auto;
- min-height: 100vh;
- background: white;
-}
+    main {
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 15px;
+    }
 
-header {
- padding: 18px;
- border-bottom: 1px solid #dddddd;
-}
+    .caixa {
+      background: white;
+      padding: 18px;
+      margin-bottom: 18px;
+      border-radius: 8px;
+    }
 
-.nomeProjeto {
- font-size: 21px;
- font-weight: bold;
-}
+    label {
+      display: block;
+      margin-top: 12px;
+      margin-bottom: 5px;
+    }
 
-.subtitulo {
- font-size: 12px;
- color: #666666;
- margin-top: 4px;
-}
+    input, select, textarea, button {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      font-size: 16px;
+    }
 
-main {
- padding: 18px;
- padding-bottom: 90px;
-}
+    textarea {
+      min-height: 90px;
+    }
 
-.tela { display: none; }
-.tela.ativa { display: block; }
+    button {
+      margin-top: 15px;
+      cursor: pointer;
+      border: 0;
+      border-radius: 6px;
+      background: #1d6f42;
+      color: white;
+    }
 
-h1 {
- font-size: 24px;
-}
+    .registro {
+      border: 1px solid #ddd;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 6px;
+      background: #fafafa;
+    }
 
-.caixa {
- border: 1px solid #d7e0e0;
- border-radius: 10px;
- padding: 14px;
- margin: 12px 0;
-}
-
-.aviso {
- background: #edf8f6;
- padding: 10px;
- border-left: 4px solid #18786f;
- margin: 12px 0;
- font-size: 13px;
-}
-
-button {
- width: 100%;
- border: 0;
- border-radius: 10px;
- padding: 13px;
- margin-top: 8px;
- background: #18786f;
- color: white;
- font-weight: bold;
- font-size: 15px;
- cursor: pointer;
-}
-
-.botaoClaro {
- background: #edf5f5;
- color: #155f59;
- border: 1px solid #cbdada;
-}
-
-label {
- display: block;
- font-weight: bold;
- margin-top: 13px;
- margin-bottom: 5px;
- font-size: 13px;
-}
-
-input, select, textarea {
- width: 100%;
- padding: 11px;
- box-sizing: border-box;
- border: 1px solid #cccccc;
- border-radius: 8px;
- font-size: 15px;
-}
-
-textarea {
- min-height: 90px;
-}
-
-#fotoMostrada {
- width: 100%;
- max-height: 230px;
- object-fit: cover;
- margin-top: 10px;
- border-radius: 8px;
- display: none;
-}
-
-nav {
- position: fixed;
- bottom: 0;
- left: 50%;
- transform: translateX(-50%);
- width: 100%;
- max-width: 480px;
- display: grid;
- grid-template-columns: repeat(4,1fr);
- background: white;
- border-top: 1px solid #dddddd;
-}
-
-nav button {
- background: white;
- color: #666666;
- border-radius: 0;
- margin: 0;
- font-size: 12px;
-}
-
-nav button.ativo {
- color: #18786f;
- background: #eef7f6;
-}
-
-.etiqueta {
- display: inline-block;
- background: #fff3bd;
- padding: 4px 7px;
- border-radius: 12px;
- font-size: 11px;
- font-weight: bold;
-}
-
-.info {
- color: #666666;
- font-size: 12px;
- margin-top: 5px;
-}
-
-.sucesso {
- text-align: center;
- font-size: 55px;
- margin-top: 20px;
-}
-</style>
+    .mensagem {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
 </head>
-
 <body>
-<div class="app">
+
 <header>
- <div class="nomeProjeto">Recife sem Poluição</div>
-<div class="subtitulo">Protótipo feito para atividade extensionista</div>
+  <h1>Recife sem Poluição</h1>
+  <p>Registro simples de pontos de poluição</p>
 </header>
 
 <main>
-<section id="inicio" class="tela ativa">
- <span class="etiqueta">PROTÓTIPO ACADÊMICO</span>
- <h1>Ajude a registrar pontos de poluição</h1>
- <p>Esse projeto foi criado para testar uma forma simples de registrar poluição em rios, canais e áreas da orla do Recife.</p>
 
- <button onclick="trocarTela('denuncia')">Fazer uma denúncia</button>
+  <div class="caixa">
+    <h2>Nova denúncia</h2>
 
- <div class="caixa">
-   <h2>Como usar</h2>
-   <p>1. Escolha o tipo de poluição.<br>
-   2. Informe o local.<br>
-   3. Escreva uma descrição.<br>
-   4. Se quiser coloque uma foto.<br>
-   5. Clique para enviar.</p>
- </div>
+    <label>Tipo de poluição</label>
+    <select id="tipo">
+      <option value="Lixo ou resíduos sólidos">Lixo ou resíduos sólidos</option>
+      <option value="Água poluída">Água poluída</option>
+      <option value="Esgoto">Esgoto</option>
+      <option value="Outro">Outro</option>
+    </select>
 
- <div class="aviso">Esse projeto é somente um protótipo acadêmico e não envia a denúncia para nenhum órgão público.</div>
-</section>
+    <label>Local</label>
+    <input id="local" type="text" placeholder="Ex: Iputinga, Recife">
 
-<section id="denuncia" class="tela">
-<h1>Nova denúncia</h1>
+    <label>Descrição</label>
+    <textarea id="descricao" placeholder="Descreva o problema encontrado"></textarea>
 
-<label>Tipo de poluição</label>
-<select id="tipo">
- <option>Lixo ou resíduos sólidos</option>
- <option>Esgoto ou água contaminada</option>
- <option>Óleo ou produto químico</option>
- <option>Animal morto</option>
- <option>Outro</option>
-</select>
+    <label>Foto (opcional)</label>
+    <input id="foto" type="file" accept="image/*">
 
-<label>Local</label>
-<input id="local" placeholder="Ex: margem do Rio Capibaribe">
-<button class="botaoClaro" onclick="pegarLocalizacao()">Usar minha localização</button>
-<div id="textoLocalizacao" class="info"></div>
+    <button onclick="enviarDenuncia()">Enviar denúncia</button>
 
-<label>Descrição</label>
-<textarea id="descricao" placeholder="Escreva o que você encontrou"></textarea>
+    <div id="mensagem" class="mensagem"></div>
+  </div>
 
-<label>Foto (opcional)</label>
-<input id="foto" type="file" accept="image/*" capture="environment">
-<img id="fotoMostrada" alt="Foto escolhida">
+  <div class="caixa">
+    <h2>Registros</h2>
+    <button onclick="mostrarRegistros()">Atualizar registros</button>
+    <div id="lista"></div>
+  </div>
 
-<button onclick="enviarDenuncia()">Enviar denúncia do teste</button>
-<button class="botaoClaro" onclick="trocarTela('inicio')">Cancelar</button>
-</section>
-
-<section id="final" class="tela">
- <div class="sucesso">✓</div>
- <h1>Registro feito</h1>
- <p>A denúncia foi salva somente neste navegador para demonstrar o projeto.</p>
- <button onclick="trocarTela('registros')">Ver registros</button>
- <button class="botaoClaro" onclick="trocarTela('denuncia')">Fazer outro teste</button>
-</section>
-
-<section id="registros" class="tela">
- <h1>Registros</h1>
- <div class="aviso">Os registros com a palavra EXEMPLO são apenas para mostrar como a tela funciona.</div>
-
- <div class="caixa">
-   <span class="etiqueta">EXEMPLO</span>
-   <h3>Lixo ou resíduos sólidos</h3>
-   <div class="info">Rio Capibaribe - exemplo do projeto</div>
- </div>
-
- <div class="caixa">
- <span class="etiqueta">EXEMPLO</span>
- <h3>Esgoto ou água contaminada</h3>
- <div class="info">Área costeira - exemplo do projeto</div>
- </div>
-
-<div id="listaDenuncias"></div>
-</section>
-
-<section id="sobre" class="tela">
- <h1>Sobre</h1>
- <div class="caixa">
-   <h2>Objetivo</h2>
-   <p>O objetivo é testar uma ideia de aplicativo que ajude pessoas a registrar locais com poluição e organizar essas informações.</p>
- </div>
-
-<div class="caixa">
-<h2>Como foi feito</h2>
-<p>O protótipo foi feito usando HTML, CSS e JavaScript. Os registros ficam salvos no navegador usando localStorage.</p>
-</div>
-
- <div class="caixa">
- <h2>Importante</h2>
- <p>Esse sistema é só um projeto acadêmico e não substitui canais oficiais de denúncia.</p>
- </div>
-</section>
 </main>
 
-<nav>
-<button data-tela="inicio" class="ativo" onclick="trocarTela('inicio')">Início</button>
-<button data-tela="denuncia" onclick="trocarTela('denuncia')">Denunciar</button>
-<button data-tela="registros" onclick="trocarTela('registros')">Registros</button>
-<button data-tela="sobre" onclick="trocarTela('sobre')">Sobre</button>
-</nav>
-</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-// variavel usada para guardar a localização quando o usuario permitir
-let localizacao = "";
+const urlBanco = "https://xapyazsawoexoebgdeyt.supabase.co/rest/v1/";
+const chaveBanco = "sb_publishable_xni3EfZDUWEhStxwYfgLpA_BhoH9aRG";
 
-function trocarTela(nomeTela) {
- let telas = document.querySelectorAll(".tela");
+const banco = supabase.createClient(urlBanco, chaveBanco);
 
- telas.forEach(function(tela) {
-  tela.classList.remove("ativa");
- });
-
- document.getElementById(nomeTela).classList.add("ativa");
-
-let botoes = document.querySelectorAll("nav button");
- botoes.forEach(function(botao) {
-    if(botao.dataset.tela == nomeTela) {
-     botao.classList.add("ativo");
-    } else {
-      botao.classList.remove("ativo");
-    }
- });
-
- if(nomeTela == "registros") {
-   mostrarRegistros();
- }
- window.scrollTo(0,0);
-}
-
-function pegarLocalizacao() {
- let texto = document.getElementById("textoLocalizacao");
-
- if(!navigator.geolocation) {
-  texto.innerText = "Esse navegador não tem geolocalização.";
-  return;
- }
-
- texto.innerText = "Pegando localização...";
-
- navigator.geolocation.getCurrentPosition(function(posicao) {
-  let latitude = posicao.coords.latitude.toFixed(5);
-   let longitude = posicao.coords.longitude.toFixed(5);
-
-   localizacao = latitude + ", " + longitude;
-  texto.innerText = "Localização encontrada: " + localizacao;
- }, function() {
- texto.innerText = "Não consegui pegar a localização. Pode escrever o local manualmente.";
- });
-}
-
-let campoFoto = document.getElementById("foto");
-
-campoFoto.addEventListener("change", function() {
- let foto = campoFoto.files[0];
- let imagem = document.getElementById("fotoMostrada");
-
- if(!foto) {
-    imagem.style.display = "none";
-  return;
- }
-
- let leitor = new FileReader();
- leitor.onload = function() {
- imagem.src = leitor.result;
-   imagem.style.display = "block";
- };
- leitor.readAsDataURL(foto);
-});
-
-function enviarDenuncia() {
+async function enviarDenuncia() {
  let tipo = document.getElementById("tipo").value;
- let local = document.getElementById("local").value.trim();
+  let local = document.getElementById("local").value.trim();
  let descricao = document.getElementById("descricao").value.trim();
+ let fotoUrl = "";
 
  if(local == "") {
-  alert("Digite o local antes de enviar.");
+   document.getElementById("mensagem").innerText = "Digite o local.";
    return;
  }
 
- let denunciasSalvas = localStorage.getItem("denunciasRecife");
- let denuncias = [];
-
- if(denunciasSalvas) {
-   denuncias = JSON.parse(denunciasSalvas);
+ if(descricao == "") {
+  document.getElementById("mensagem").innerText = "Digite uma descrição.";
+  return;
  }
 
- let novaDenuncia = {
-  tipo: tipo,
-   local: local,
-  descricao: descricao,
-  localizacao: localizacao,
-   data: new Date().toLocaleString("pt-BR")
- };
+ const { data, error } = await banco
+   .from("denuncias")
+   .insert([
+      {
+        tipo: tipo,
+        local: local,
+        descricao: descricao,
+        foto_url: fotoUrl
+      }
+   ]);
 
- denuncias.unshift(novaDenuncia);
- localStorage.setItem("denunciasRecife", JSON.stringify(denuncias));
+ if(error) {
+   console.log(error);
+   document.getElementById("mensagem").innerText = "Erro ao salvar a denúncia.";
+   return;
+ }
 
+ document.getElementById("mensagem").innerText = "Denúncia salva com sucesso!";
  document.getElementById("local").value = "";
  document.getElementById("descricao").value = "";
- document.getElementById("foto").value = "";
- document.getElementById("fotoMostrada").style.display = "none";
- document.getElementById("textoLocalizacao").innerText = "";
- localizacao = "";
 
- trocarTela("final");
+ mostrarRegistros();
 }
 
-function mostrarRegistros() {
- let lista = document.getElementById("listaDenuncias");
- let dados = localStorage.getItem("denunciasRecife");
- let denuncias = [];
+async function mostrarRegistros() {
+ let lista = document.getElementById("lista");
+ lista.innerHTML = "Carregando...";
 
- if(dados) {
-  denuncias = JSON.parse(dados);
- }
+ const { data, error } = await banco
+   .from("denuncias")
+   .select("*")
+   .order("created_at", { ascending: false });
 
- if(denuncias.length == 0) {
-   lista.innerHTML = '<p class="info">Ainda não foi feito nenhum registro de teste neste navegador.</p>';
- return;
+ if(error) {
+   console.log(error);
+   lista.innerHTML = "Erro ao carregar os registros.";
+   return;
  }
 
  lista.innerHTML = "";
 
- denuncias.forEach(function(denuncia) {
-  let caixa = document.createElement("div");
-    caixa.className = "caixa";
-
-  let html = '<span class="etiqueta">REGISTRO DO TESTE</span>';
- html += "<h3>" + limparTexto(denuncia.tipo) + "</h3>";
-  html += "<div>" + limparTexto(denuncia.local) + "</div>";
- html += '<div class="info">' + limparTexto(denuncia.data);
-
-  if(denuncia.localizacao) {
- html += " - " + limparTexto(denuncia.localizacao);
-  }
-
- html += "</div>";
-
- if(denuncia.descricao) {
-   html += "<p>" + limparTexto(denuncia.descricao) + "</p>";
+ if(!data || data.length == 0) {
+   lista.innerHTML = "Nenhum registro encontrado.";
+   return;
  }
 
-  caixa.innerHTML = html;
- lista.appendChild(caixa);
+ data.forEach(function(denuncia) {
+   let bloco = document.createElement("div");
+   bloco.className = "registro";
+
+   let dataTexto = "";
+   if(denuncia.created_at) {
+      dataTexto = new Date(denuncia.created_at).toLocaleString("pt-BR");
+   }
+
+   bloco.innerHTML =
+     "<strong>Tipo:</strong> " + (denuncia.tipo || "") + "<br>" +
+     "<strong>Local:</strong> " + (denuncia.local || "") + "<br>" +
+     "<strong>Descrição:</strong> " + (denuncia.descricao || "") + "<br>" +
+     "<strong>Data:</strong> " + dataTexto;
+
+   lista.appendChild(bloco);
  });
 }
 
-// isso evita que algum texto digitado vire codigo html na tela
-function limparTexto(texto) {
- let div = document.createElement("div");
- div.innerText = texto || "";
-  return div.innerHTML;
-}
+mostrarRegistros();
 </script>
+
 </body>
 </html>
